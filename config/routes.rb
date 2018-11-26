@@ -89,6 +89,7 @@ Rails.application.routes.draw do
     end
     member do
       get 'data'
+      get 'published'
       put 'close'
       put 'open'
       get 'sign_form'
@@ -106,6 +107,7 @@ Rails.application.routes.draw do
       get 'stories/:story_id', action: 'story', as: :story
       get 'picket'
     end
+    resources :campaign_steps, only: [:edit, :update]
   end
   resources :polls do
     get 'social_card', on: :member

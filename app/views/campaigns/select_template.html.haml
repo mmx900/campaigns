@@ -1,0 +1,19 @@
+%section.page-block
+  .container
+    %div{ style: 'padding:14px; background: #fff; border-radius: 14px; text-align: center;'}
+      %h3
+        홍길동님, 세상을 바꿀 준비되셨나요?
+      %p.lead{ style: 'margin-top: 28px' }
+        유형을 선택하세요.
+
+      %p
+        = link_to campaigns_path, method: :post, class: 'btn btn-lg btn-info btn-xs-block' do
+          서명 하기*(wizard)
+        &nbsp;
+        = link_to new_campaign_path(template: 'order', project_id: params[:project_id]), class: 'btn btn-lg btn-primary btn-xs-block' do
+          팻말들기
+        &nbsp;
+        = link_to new_campaign_path(template: 'basic', project_id: params[:project_id]), class: 'btn btn-lg btn-success btn-xs-block' do
+          추모하기
+        &nbsp;
+

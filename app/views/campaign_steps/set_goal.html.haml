@@ -1,0 +1,44 @@
+.panel.panel-default
+  .panel-body
+    = form_for campaign_step_model, url: campaign_campaign_step_path(campaign_step_model, step), as: :campaign do |f|
+
+      %fieldset
+        %legend 목표 설정
+
+        %ol
+          .form_group
+          %li= f.label '촉구할 대상'
+          = f.text_field :title_to_agent, class: 'form-control'
+
+          .form_group
+          %li= f.label :signs_goal_count
+          = f.number_field :signs_goal_count, class: 'form-control'
+
+          .form_group
+          %li= f.label '서명시 받을 개인 정보'
+          .checkbox
+            %label
+              = f.check_box :use_signer_real_name
+              %strong 실명
+            %label
+              = f.check_box :use_signer_email
+              %strong 이메일
+            %label
+              = f.check_box :use_signer_address
+              %strong 주소
+            %label
+              = f.check_box :use_signer_phone
+              %strong 연락처
+
+          .form_group
+          %li= f.label :closed_at
+          = f.date_select :closed_at, start_year: Date.today.year, default: Date.today
+
+          .form_group
+          %li= f.label :area_id
+          = f.select :area_id, Area.all_divisions.map { |area| [area.description, area.id] }, { include_blank: true }, class: 'js-select2 form-control'
+
+      - if previous_step.present?
+        = link_to "previous", edit_campaign_campaign_step_path(campaign_step_model, previous_step)
+
+      = f.submit next_step.present? ? "next" : "publish"

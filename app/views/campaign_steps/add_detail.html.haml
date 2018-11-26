@@ -1,0 +1,28 @@
+.panel.panel-default
+  .panel-body
+    = form_for campaign_step_model, url: campaign_campaign_step_path(campaign_step_model, step), as: :campaign do |f|
+
+      %fieldset
+        %legend 내용 입력
+
+        %ol
+          .form_group
+          %li= f.label :title
+          = f.text_field :title, class: 'form-control'
+
+          .form_group
+          %li= f.label :body
+          ~ f.text_area :body, class: 'form-control redactor'
+
+          .form-group
+          %li= f.label :cover_image
+          = f.file_field :cover_image, class: 'form-control'
+
+          .form-group
+          %li= f.label :social_image
+          = f.file_field :social_image, class: 'form-control'
+
+      - if previous_step.present?
+        = link_to "previous", edit_campaign_campaign_step_path(campaign_step_model, previous_step)
+
+      = f.submit next_step.present? ? "next" : "publish"

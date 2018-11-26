@@ -40,8 +40,12 @@ class CampaignsController < ApplicationController
   def data
   end
 
+  def published
+    @campaign = Campaign.find(params[:id])
+  end
+
   def new
-    render 'new_no_template' and return if params[:template].blank?
+    render 'select_template' and return if params[:template].blank?
 
     @project = Project.find(params[:project_id]) if params[:project_id].present?
     @current_organization = @project.organization if @project.present?
@@ -49,27 +53,36 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    @campaign.user = current_user
-    if @campaign.special_slug.present?
-      Special.build_campaign @campaign
-    end
-
-    if params[:action_assignable_id].present? and params[:action_assignable_type].present?
-      action_assignable_model = params[:action_assignable_type].classify.safe_constantize
-      render_404 and return if action_assignable_model.blank?
-      action_assignable = action_assignable_model.find_by(id: params[:action_assignable_id])
-      render_404 and return if action_assignable.blank?
-
-      @campaign.action_targets.build(action_assignable: action_assignable)
-    end
-
-    if @campaign.save
-      @campaign.issue&.followers&.each{ |x| FollowingIssueMailer.notify(x, @campaign.issue, @campaign).deliver_later }
-      redirect_to @campaign
+    if include_wizard?(params[:wizard])
+      @campaign = Campaign.find_or_create_by(draft: true, user_id: current_user.id, template: params[:wizard])
+      redirect_to edit_campaign_campaign_step_path(@campaign, "#{params[:wizard]}=#{first_step(params[:wizard])}")
     else
-      render 'new'
+      redirect_to new_campaign_path
     end
   end
+
+  # def create
+  #   @campaign.user = current_user
+  #   if @campaign.special_slug.present?
+  #     Special.build_campaign @campaign
+  #   end
+
+  #   if params[:action_assignable_id].present? and params[:action_assignable_type].present?
+  #     action_assignable_model = params[:action_assignable_type].classify.safe_constantize
+  #     render_404 and return if action_assignable_model.blank?
+  #     action_assignable = action_assignable_model.find_by(id: params[:action_assignable_id])
+  #     render_404 and return if action_assignable.blank?
+
+  #     @campaign.action_targets.build(action_assignable: action_assignable)
+  #   end
+
+  #   if @campaign.save
+  #     @campaign.issue&.followers&.each{ |x| FollowingIssueMailer.notify(x, @campaign.issue, @campaign).deliver_later }
+  #     redirect_to @campaign || @project
+  #   else
+  #     render 'new'
+  #   end
+  # end
 
   def edit
     @project = @campaign.project
@@ -197,6 +210,7 @@ class CampaignsController < ApplicationController
   private
 
   def campaign_params
+    return {} unless params[:campaign].present?
     params.require(:campaign).permit(:title, :body, :project_id, :signs_goal_count, :cover_image, :thanks_mention,
       :comment_enabled, :sign_title, :sign_placeholder, :social_image, :confirm_privacy,
       :use_signer_email, :use_signer_address, :use_signer_real_name, :use_signer_phone,

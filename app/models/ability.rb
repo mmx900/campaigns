@@ -78,6 +78,7 @@ class Ability
       end
 
       can :data, [Campaign], user_id: user.id
+      can :published, [Campaign], user_id: user.id
 
       # 관심 이슈 등록
       can :manage, [FollowingIssue], user_id: user.id

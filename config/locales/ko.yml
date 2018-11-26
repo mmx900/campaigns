@@ -158,6 +158,7 @@ ko:
         use_signer_email: 이메일 입력 여부
         use_signer_address: 주소 입력 여부
         use_signer_phone: 연락처 입력 여부
+        closed_at: 종료일
       sign:
         signer_name: 이름
         signer_email: 이메일

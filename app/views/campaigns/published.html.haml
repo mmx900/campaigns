@@ -1,0 +1,9 @@
+
+%h2 #{current_user.nickname}님의 캠페인이 발행되었습니다.
+
+%h3 제목: #{@campaign.title}
+
+%p 공유할 링크
+%p= campaign_url(@campaign)
+
+%p= link_to '내 캠페인 보러 가기', user_path(current_user)
