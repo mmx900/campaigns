@@ -1,6 +1,6 @@
 .panel.panel-default
   .panel-body
-    = form_for campaign_step_model, url: campaign_campaign_step_path(campaign_step_model, step), as: :campaign do |f|
+    = form_for campaign_step_model, url: campaign_campaign_step_path(campaign_step_model, "#{@campaign.template}=#{step}"), as: :campaign do |f|
 
       %fieldset
         %legend 목표 설정

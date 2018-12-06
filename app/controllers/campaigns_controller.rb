@@ -1,6 +1,7 @@
 class CampaignsController < ApplicationController
   include OrganizationHelper
   include Statementing
+  include CampaignStepsHelper
 
   load_and_authorize_resource
   before_action :reset_meta_tags_for_show

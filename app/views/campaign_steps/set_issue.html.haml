@@ -1,0 +1,15 @@
+.panel.panel-default
+  .panel-body
+    = form_for campaign_step_model, url: campaign_campaign_step_path(campaign_step_model, "#{@campaign.template}=#{step}"), as: :campaign do |f|
+
+      %fieldset
+        %legend 이슈 선택
+
+        .form-group
+          = f.label :issue_id, '특정 이슈에 관련된 캠페인인가요? 이슈와 연결해 보세요. (선택)'
+          = f.select :issue_id, (@campaign.issue.present? ? [[@campaign.issue.title, @campaign.issue.id]] : []), { include_blank: true }, class: 'js-select2-ajax form-control', data: { 'select2-url': issues_path }
+
+      - if previous_step.present?
+        = link_to "previous", edit_campaign_campaign_step_path(campaign_step_model, "#{@campaign.template}=#{previous_step}")
+
+      = f.submit next_step.present? ? "next" : "publish"

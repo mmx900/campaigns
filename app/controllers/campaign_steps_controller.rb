@@ -17,10 +17,11 @@ class CampaignStepsController < ApplicationController
 
   def update
     logger.info "update"
+    wizard, id = params[:id].split('=')
     if campaign_step_model.update_attributes(campaign_params || {})
       logger.info "next_step: #{next_step}"
       if next_step && params[:commit].downcase.include?('next')
-        redirect_to edit_campaign_campaign_step_path(campaign_step_model, next_step)
+        redirect_to edit_campaign_campaign_step_path(campaign_step_model, "#{wizard}=#{next_step}")
       else
         logger.info "publish"
         @campaign.update_attributes(draft: false)
