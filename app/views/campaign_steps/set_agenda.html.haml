@@ -1,11 +1,32 @@
 .panel.panel-default
   .panel-body
-    = form_for campaign_step_model, url: campaign_campaign_step_path(campaign_step_model, step), as: :campaign do |f|
+    = form_for campaign_step_model, url: campaign_campaign_step_path(campaign_step_model, "#{@campaign.template}=#{step}"), as: :campaign do |f|
 
       %fieldset
         %legend 아젠다 선택
 
-        .form-group
-          = f.label :issue_id, '특정 이슈에 관련된 캠페인인가요? 이슈와 연결해 보세요. (선택)'
-          = f.select :issue_id, (@campaign.issue.present? ? [[@campaign.issue.title, @campaign.issue.id]] : []), { include_blank: true }, class: 'js-select2-ajax form-control', data: { 'select2-url': issues_path }
+        %section.page-block
+          .container-fluid
+            .row.masonry-container
+              - @agendas.each do |agenda|
+                .col-lg-2.col-md-3.col-sm-4.col-xs-6
+                  .agenda-card.panel-floating.component-card[agenda]
+                    .card-image{ style: "height: 140px; background-image: url(#{agenda.image.md.url}); background-size: cover; background-position: center center;" }
+                    .card-content
+                      .header{ style: 'font-size: 1.2em' }
+                        = f.radio_button :issue_id, agenda.issues.first.id
+                        = agenda.name
+                      .card-description
+                        이슈 #{agenda.issues.count}개
+                      %hr{style:"color:rgba(230, 230, 230, 1);height:1px;"}
+                      .card-sub
+                        %span
+                          찬반 투표 (#{agenda.opinions.sum(:votes_count)})
+                        %span
+                          정책 (#{agenda.opinions.count})
+
+      - if previous_step.present?
+        = link_to "previous", edit_campaign_campaign_step_path(campaign_step_model, previous_step)
+
+      = f.submit next_step.present? ? "next" : "publish"
 

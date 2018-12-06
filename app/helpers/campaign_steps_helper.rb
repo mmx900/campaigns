@@ -1,11 +1,12 @@
 module CampaignStepsHelper
   STEPS = %w(set_goal add_detail)
   MULTI_STEPS = {
-    "petition" => %w(set_issue set_goal add_detail),
-    "order" => "",
-    "basic" => "",
-    "photo" => "",
-    "map" => "",  # picket
+    "petition"     => %w(set_agenda set_issue set_goal add_detail),
+    "order"       => "",
+    "picket"      => %w(set_picket),
+    "basic"       => %w(set_agenda set_issue set_goal add_detail),
+    "photo"      => %w(set_agenda set_issue set_goal add_detail),
+    "map"        => %w(set_agenda set_issue set_goal add_detail),
     "sympathy" => %w(add_detail)
   }
 

@@ -16,17 +16,13 @@ class CampaignStepsController < ApplicationController
   end
 
   def update
-    logger.info "update"
     wizard, id = params[:id].split('=')
     if campaign_step_model.update_attributes(campaign_params || {})
-      logger.info "next_step: #{next_step}"
       if next_step && params[:commit].downcase.include?('next')
         redirect_to edit_campaign_campaign_step_path(campaign_step_model, "#{wizard}=#{next_step}")
       else
-        logger.info "publish"
         @campaign.update_attributes(draft: false)
         redirect_to published_campaign_path(@campaign)
-        # redirect_to campaing_path(@campaign)
       end
     else
       render step, error: "Please complete all required fields"
@@ -36,6 +32,7 @@ class CampaignStepsController < ApplicationController
 private
 
   def load_campaign
+    @agendas = Agenda.order('id DESC')
     @campaign = campaign_step_model
     authorize! :read, @campaign
   end

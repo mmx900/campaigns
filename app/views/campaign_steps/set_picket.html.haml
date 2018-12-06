@@ -1,0 +1,19 @@
+%section.page-block
+  .container
+    %div{ style: 'padding:14px; background: #fff; border-radius: 14px; text-align: center;'}
+      %h3
+        팻말 등록 유형을 선택해주세요.
+      %p.lead{ style: 'margin-top: 28px' }
+        유형을 선택하세요.
+
+      %p
+        = link_to campaigns_path(wizard: 'basic'), method: :post, class: 'btn btn-lg btn-info btn-xs-block' do
+          글
+        &nbsp;
+        = link_to campaigns_path(wizard: 'photo'), method: :post, class: 'btn btn-lg btn-primary btn-xs-block' do
+          인증샷
+        &nbsp;
+        = link_to campaigns_path(wizard: 'map'), method: :post, class: 'btn btn-lg btn-success btn-xs-block' do
+          지도에 표시
+        &nbsp;
+

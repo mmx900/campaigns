@@ -8,12 +8,12 @@
 
       %p
         = link_to campaigns_path(wizard: 'petition'), method: :post, class: 'btn btn-lg btn-info btn-xs-block' do
-          서명 하기*(wizard)
+          서명하기
         &nbsp;
-        = link_to new_campaign_path(template: 'order', project_id: params[:project_id]), class: 'btn btn-lg btn-primary btn-xs-block' do
+        = link_to campaigns_path(wizard: 'picket'), method: :post, class: 'btn btn-lg btn-primary btn-xs-block' do
           팻말들기
         &nbsp;
         = link_to campaigns_path(wizard: 'sympathy'), method: :post, class: 'btn btn-lg btn-success btn-xs-block' do
-          추모하기*(wizard)
+          추모하기
         &nbsp;
 
