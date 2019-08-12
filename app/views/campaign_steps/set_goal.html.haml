@@ -24,10 +24,10 @@
               = f.check_box :use_signer_email
               %strong 이메일
             %label
-              = f.check_box :use_signer_address
+              = f.select :use_signer_address, Campaign.use_signer_address.options
               %strong 주소
             %label
-              = f.check_box :use_signer_phone
+              = f.select :use_signer_phone, Campaign.use_signer_phone.options
               %strong 연락처
 
           .form_group
