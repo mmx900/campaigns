@@ -18,7 +18,7 @@ class CampaignStepsController < ApplicationController
   def update
     wizard, id = params[:id].split('=')
     if campaign_step_model.update_attributes(campaign_params || {})
-      if next_step && params[:commit].downcase.include?('next')
+      if next_step && params[:commit].downcase.include?('다음으로')
         redirect_to edit_campaign_campaign_step_path(campaign_step_model, "#{wizard}=#{next_step}")
       else
         @campaign.update_attributes(draft: false)

@@ -1,25 +1,21 @@
 - agenda = @campaign.issue.agendas.last
-.panel.panel-default
-  .panel-body
+%section.page-block
+  .container
     %fieldset
       %legend 아젠다
+    .row
+      .col-lg-3.col-md-3.col-sm-4.col-xs-6
+        .agenda-card.panel-floating.component-card[agenda]
+          .card-image{ style: "height: 100px; background-image: url(#{agenda.image.md.url}); background-size: cover; background-position: center center;" }
+          .card-content
+            .header{ style: 'font-size: 1.2em' }
+              = agenda.name
 
-      %section.page-block
-        .container-fluid
-          .row.masonry-container
-            .agenda-card.panel-floating.component-card
-              .card-image{ style: "height: 140px; background-image: url(#{agenda.image.md.url}); background-size: cover; background-position: center center;" }
-              .card-content
-                .header{ style: 'font-size: 1.2em' }
-                  = agenda.name
-                .card-description
-                  이슈 #{agenda.issues.count}개
-                %hr{style:"color:rgba(230, 230, 230, 1);height:1px;"}
-                .card-sub
-                  %span
-                    찬반 투표 (#{agenda.opinions.sum(:votes_count)})
-                  %span
-                    정책 (#{agenda.opinions.count})
+            .card-description
+              %span
+                찬반투표 (#{agenda.opinions.sum(:votes_count)})
+              %span
+                정책 (#{agenda.opinions.count})
 
 
     = form_for campaign_step_model, url: campaign_campaign_step_path(campaign_step_model, "#{@campaign.template}=#{step}"), as: :campaign do |f|
@@ -29,10 +25,12 @@
 
         - agenda.issues.each do |issue|
           .form-group
-            = f.radio_button :issue_id, issue
+            = f.radio_button :issue_id, issue.id
             = issue.title
 
       - if previous_step.present?
         = link_to "previous", edit_campaign_campaign_step_path(campaign_step_model, "#{@campaign.template}=#{previous_step}")
 
-      = f.submit next_step.present? ? "next" : "publish"
+      %div
+        = f.submit (next_step.present? ? "다음으로" : "저장"), class: 'btn btn-lg btn-primary btn-block'
+

@@ -1,5 +1,7 @@
-.panel.panel-default
-  .panel-body
+%section.page-block
+  .container
+    %h4 아젠다: #{@campaign.issue.agendas.last.name} / 이슈: #{@campaign.issue.title}
+
     = form_for campaign_step_model, url: campaign_campaign_step_path(campaign_step_model, "#{@campaign.template}=#{step}"), as: :campaign do |f|
 
       %fieldset
@@ -39,6 +41,7 @@
           = f.select :area_id, Area.all_divisions.map { |area| [area.description, area.id] }, { include_blank: true }, class: 'js-select2 form-control'
 
       - if previous_step.present?
-        = link_to "previous", edit_campaign_campaign_step_path(campaign_step_model, previous_step)
+        = link_to "이전으로", edit_campaign_campaign_step_path(campaign_step_model, previous_step), class: 'btn btn-lg btn-block'
 
-      = f.submit next_step.present? ? "next" : "publish"
+      = f.submit (next_step.present? ? "다음으로" : "저장"), class: 'btn btn-lg btn-primary btn-block'
+

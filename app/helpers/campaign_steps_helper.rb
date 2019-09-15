@@ -38,10 +38,11 @@ module CampaignStepsHelper
 
   def previous_step
     wizard, klass = params[:id].split("=")
+
     if wizard.present?
       current_step_index = MULTI_STEPS[wizard].index(step)
       previous_step_index = current_step_index - 1
-      previous_step_index < 0 ? nil : MULTI_STEPS[previous_step_index]
+      previous_step_index < 0 ? nil : MULTI_STEPS[wizard][previous_step_index]
     else
       current_step_index = STEPS.index(step)
       previous_step_index = current_step_index - 1
