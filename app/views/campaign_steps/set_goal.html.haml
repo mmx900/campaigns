@@ -41,7 +41,7 @@
           = f.select :area_id, Area.all_divisions.map { |area| [area.description, area.id] }, { include_blank: true }, class: 'js-select2 form-control'
 
       - if previous_step.present?
-        = link_to "이전으로", edit_campaign_campaign_step_path(campaign_step_model, previous_step), class: 'btn btn-lg btn-block'
+        = link_to "이전으로", edit_campaign_campaign_step_path(campaign_step_model, "#{@campaign.template}=#{previous_step}"), class: 'btn btn-lg btn-warning btn-block'
 
       = f.submit (next_step.present? ? "다음으로" : "저장"), class: 'btn btn-lg btn-primary btn-block'
 

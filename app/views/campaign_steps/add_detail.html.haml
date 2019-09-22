@@ -23,6 +23,7 @@
           = f.file_field :social_image, class: 'form-control'
 
       - if previous_step.present?
-        = link_to "previous", edit_campaign_campaign_step_path(campaign_step_model, previous_step)
+        = link_to "이전으로", edit_campaign_campaign_step_path(campaign_step_model, "#{@campaign.template}=#{previous_step}"), class: 'btn btn-lg btn-warning btn-block'
 
-      = f.submit next_step.present? ? "next" : "publish"
+      %div
+        = f.submit (next_step.present? ? "다음으로" : "저장/발행"), class: 'btn btn-lg btn-primary btn-block'
