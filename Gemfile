@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 5.2', '>= 5.2.4.4'
 gem 'unicorn'
-gem 'puma', '>= 4.3.5'
+gem 'puma', '4.3.5'
 gem 'rb-readline'
 gem 'bundler', '2.1.4'
 
